@@ -43,6 +43,7 @@
     padding: 5px 7px;
     border: 0;
     border-radius: 10px;
+    width: 100px;
 }
 
 .widgetLgButton.Approve{

@@ -1,15 +1,29 @@
 import "./productList.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { DeleteOutline } from "@mui/icons-material";
-import { productRows } from "../../dummyData";
+// import { productRows } from "../../dummyData";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteProduct, getProducts } from "../../redux/apiCalls";
 
 const ProductList = () => {
-  const [data, setData] = useState(productRows);
+  // const [data, setData] = useState(productRows);
 
+  const dispatch = useDispatch();
+
+  const product = useSelector(state=>state.product.products)
+
+
+  useEffect(()=>{
+    getProducts(dispatch)
+  }, [dispatch])
+
+  // const handleDelete = (id) => {
+  //   setData(data.filter((item) => item.id !== id));
+  // };
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
+    deleteProduct(id, dispatch)
   };
 
   const columns = [
@@ -17,22 +31,26 @@ const ProductList = () => {
     {
       field: "product",
       headerName: "Product",
-      width: 200,
+      width: 250,
       renderCell: (params) => {
         return (
           <div className="productListProduct">
             <img src={params.row.img} alt="" className="productListImg" />
-            {params.row.name}
+            {params.row.title}
           </div>
         );
       },
     },
-    { field: "stock", headerName: "Stock", width: 200 },
-    {
-      field: "status",
-      headerName: "Status",
-      width: 120,
-    },
+    { field: "in_stock", headerName: "Stock", width: 200, renderCell: (params) => {
+      return(
+        <>{params.row.in_stock === 1 ? "Available" : "Out of Stock"}</>
+      )
+    } },
+    // {
+    //   field: "status",
+    //   headerName: "Status",
+    //   width: 120,
+    // },
     {
       field: "price",
       headerName: "Price",
@@ -41,7 +59,7 @@ const ProductList = () => {
     {
       field: "action",
       headerName: "Action",
-      width: 150,
+      width: 200,
       renderCell: (params) => {
         return (
           <>
@@ -62,11 +80,12 @@ const ProductList = () => {
     <div className="productList">
       <DataGrid
         disableSelectionOnClick
-        rows={data}
+        rows={product}
         columns={columns}
         pageSize={9}
         rowsPerPageOptions={[9]}
         checkboxSelection
+        getRowId={(row) => row.id}
       />
     </div>
   );

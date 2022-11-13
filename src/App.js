@@ -15,8 +15,9 @@ function App() {
 
   const location = useLocation();
 
-  const admin = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).currentUser).user.isAdmin;
-  console.log(admin)
+  // const admin = 0;
+    const admin = JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser.isAdmin;
+  // console.log(JSON.parse(JSON.parse(localStorage.getItem("persist:root")).user).currentUser.isAdmin)
 
   return (
     <>

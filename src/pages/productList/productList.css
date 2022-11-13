@@ -23,6 +23,7 @@
     color: aliceblue;
     cursor: pointer;
     margin-right: 10px;
+    width: 100px;
 }
 
 .productListDelete{
